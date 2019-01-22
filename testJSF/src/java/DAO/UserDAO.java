@@ -107,7 +107,7 @@ public class UserDAO {
 	public String update(user user) {
 		connecter();
 		try {
-			comando.executeUpdate("UPDATE jsf SET name = '"
+			comando.executeUpdate("UPDATE jsfuser SET nom = '"
 					+ user.getNom()+ "', prenom ='" + user.getPrenom()
 					+ "', phone = '" + user.getTelephone() + "', email ='"
 					+ user.getEmail() + "' WHERE  id = " + user.getId() + ";");
@@ -124,7 +124,7 @@ public class UserDAO {
 	public String delete(int id) {
 		connecter();
 		try {
-			comando.execute("DELETE FROM jsf WHERE id = '" + id + "';");
+			comando.execute("DELETE FROM jsfuser WHERE id = '" + id + "';");
                         return "utilisateur supprimé";
 		} catch (SQLException e) {
 			System.err.println("erreur de suppression: " + e.getMessage());
