@@ -26,21 +26,21 @@ public class UserBean implements Serializable {
 	}
 
 	public void inserer(ActionEvent evt) {
-		userDAO.create(user);
+		showMessage(userDAO.create(user));
 		users = userDAO.readAll();
-		showMessage("utilisateur " + user.getNom() +" est créé avec success!");
+		
 	}
 
 	public void atualiser() {
-		userDAO.update(user);
+		showMessage(userDAO.update(user));
 		users = userDAO.readAll();
-		showMessage("utilisateur " + user.getNom() + " est modifié avec succes!");
+		
 	}
 
 	public void remove() {
-		userDAO.delete(user.getId());
+            showMessage(userDAO.delete(user.getId()));	
 		users = userDAO.readAll();
-		showMessage("utilisateur " + user.getNom() + " est supprimé avec succes!");
+		
 	}
 
 	public void nettoyer() {

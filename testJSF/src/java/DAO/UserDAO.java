@@ -40,7 +40,7 @@ public class UserDAO {
 		}
 	}
 
-	public void create(user user) {
+	public String create(user user) {
 		connecter();
 		try {
 			comando.execute("INSERT INTO jsfuser(nom,prenom,phone,email) VALUES('"
@@ -49,8 +49,11 @@ public class UserDAO {
 					+ user.getPrenom()
 					+ "', '"
 					+ user.getTelephone() + "', '" + user.getEmail() + "')");
+                         return "utilisateur créé avec succée";
 		} catch (SQLException e) {
+                    
 			System.err.println("Erreur d'insertion " + e.getMessage());
+                        return e.getMessage();
 		} finally {
 			close();
 		}
@@ -72,6 +75,7 @@ public class UserDAO {
 
 		} catch (SQLException e) {
 			System.err.println("Erreur lors de la récupération de l'utilisateur: " + e.getMessage());
+                        
 		} finally {
 			close();
 		}
@@ -100,27 +104,31 @@ public class UserDAO {
 		}
 	}
 
-	public void update(user user) {
+	public String update(user user) {
 		connecter();
 		try {
 			comando.executeUpdate("UPDATE jsf SET name = '"
 					+ user.getNom()+ "', prenom ='" + user.getPrenom()
 					+ "', phone = '" + user.getTelephone() + "', email ='"
 					+ user.getEmail() + "' WHERE  id = " + user.getId() + ";");
+                        return "utilisateur modifié";
 		} catch (SQLException e) {
 			System.err.println("erreur de modification: " + e.getMessage());
+                        return "erreur de modification: " + e.getMessage();
 		} finally {
 			close();
 		}
 
 	}
 
-	public void delete(int id) {
+	public String delete(int id) {
 		connecter();
 		try {
 			comando.execute("DELETE FROM jsf WHERE id = '" + id + "';");
+                        return "utilisateur supprimé";
 		} catch (SQLException e) {
 			System.err.println("erreur de suppression: " + e.getMessage());
+                        return "erreur de suppression: " + e.getMessage();
 		} finally {
 			close();
 		}
