@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+	
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Ajouter un nouveau utilisateur</title>
+		</f:facet>
+		
+		<style type="text/css">  
+		    .ui-widget {  
+		        font-size: 12px !important;  
+		    }  
+		</style>
+		
+	</h:head>
+
+	<h:body>
+		<h:form id="form">
+			
+			<p:growl id="msg" />
+			
+			<p:toolbar style="margin-bottom:30px;" >
+				<p:toolbarGroup align="left" >
+					<p:button value="retourner" icon="ui-icon-arrowreturnthick-1-w" outcome="index" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:fieldset legend="ajouter un nouveau utilisateur">
+				<h:panelGrid id="panel" columns="2">
+
+					<h:outputText value="Id:" />
+					<p:inputText value="#{userBean.user.id}" disabled="true" />
+
+					<h:outputText value="Nom:" />
+					<p:inputText value="#{userBean.user.nom}" required="true" requiredMessage="veuillez renseigner votre nom" />
+
+					<h:outputText value="Prenom" />
+                                        <p:inputText value="#{userBean.user.prenom}" required="true" requiredMessage="veuillez renseigner votre prenom" />
+
+					<h:outputText value="Telephone:" />
+                                        <p:inputMask value="#{userBean.user.telephone}" mask="(99) 9999-9999" />
+
+					<h:outputText value="E-mail" />
+                                        <p:inputText value="#{userBean.user.email}" />
+
+					<p:commandButton value="Sauvegarder" icon="ui-icon-disk"
+                                                         actionListener="#{userBean.inserer}" action="#{userBean.nettoyer}" update="panel, msg" />
+
+					<p:commandButton value="nettoyer" icon="ui-icon-document"
+						type="reset" />
+
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+
+	</h:body>
+
+</f:view>
+</html>
+

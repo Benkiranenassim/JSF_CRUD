@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+	
+		<f:facet name="first">
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>CRUD avec le framework JSF + MySQL</title>
+		</f:facet>
+		
+		<style type="text/css">  
+		    .ui-widget {  
+		        font-size: 12px !important;  
+		    }  
+		</style>
+		
+	</h:head>
+
+	<h:body>
+		<h:form id="form">
+
+			<p:growl id="msg" />
+			
+			<p:toolbar style="margin-bottom:30px;" >
+				<p:toolbarGroup align="left" >
+					<p:commandButton value="Nouveau utilisateur" icon="ui-icon-document" action="newUser" >
+						<f:setPropertyActionListener value="#{userBean.nullUser}" target="#{userBean.user}" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panel>
+				<p:dataTable id="table" value="#{userBean.users}" var="usr"
+					paginator="true" rows="10">
+
+					<f:facet name="header">Liste des utilisateurs</f:facet>
+
+					<p:column headerText="ID" style="text-align: center">
+						<h:outputText value="#{usr.id}" />
+					</p:column>
+
+					<p:column headerText="NOM" style="text-align: center">
+						<h:outputText value="#{usr.nom}" />
+					</p:column>
+
+					<p:column headerText="PRENOM" style="text-align: center">
+                                            <h:outputText value="#{usr.prenom}" />
+					</p:column>
+
+					<p:column headerText="TELEPHONE" style="text-align: center">
+                                            <h:outputText value="#{usr.telephone}" />
+					</p:column>
+
+					<p:column headerText="E-MAIL" style="text-align: center">
+						<h:outputText value="#{usr.email}" />
+					</p:column>
+
+					<p:column style="text-align: center">
+						<p:commandButton id="detailButton" icon="ui-icon-search" update=":form:detailDisplay" oncomplete="PF('detailWidget').show()">
+							<f:setPropertyActionListener value="#{usr}" target="#{userBean.user}" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-pencil" update=":form:editDisplay" oncomplete="PF('editWidget').show()">
+							<f:setPropertyActionListener value="#{usr}" target="#{userBean.user}" />
+						</p:commandButton>
+						<p:commandButton icon="ui-icon-trash" update=":form:removeDialog" oncomplete="PF('removeWidget').show()">
+							<f:setPropertyActionListener value="#{usr}" target="#{userBean.user}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</p:panel>
+
+			<p:dialog header="Details" widgetVar="detailWidget"
+				resizable="false" modal="true">
+											
+				<h:panelGrid id="detailDisplay" columns="2" cellpadding="4"
+					style="margin:0 auto;">
+
+					<h:outputText value="Id:" />
+					<h:outputText value="#{userBean.user.id}"
+						style="font-weight:bold" />
+
+					<h:outputText value="Nom:" />
+					<h:outputText value="#{userBean.user.nom}"
+						style="font-weight:bold" />
+
+					<h:outputText value="Prenom" />
+                                        <h:outputText value="#{userBean.user.prenom}"
+						style="font-weight:bold" />
+
+					<h:outputText value="Telephone:" />
+                                        <h:outputText value="#{userBean.user.telephone}"
+						style="font-weight:bold" />
+
+					<h:outputText value="E-mail" />
+					<h:outputText value="#{userBean.user.email}"
+						style="font-weight:bold" />
+
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:dialog header="modifier" widgetVar="editWidget" resizable="false"
+				modal="true">
+											
+				<h:panelGrid id="editDisplay" columns="2" cellpadding="4"
+					style="margin:0 auto;">
+
+					<h:outputText value="Id:" />
+					<p:inputText value="#{userBean.user.id}" disabled="true" />
+
+					<h:outputText value="Nom:" />
+					<p:inputText value="#{userBean.user.nom}" />
+
+					<h:outputText value="Prenom" />
+                                        <p:inputText value="#{userBean.user.prenom}" />
+
+					<h:outputText value="Telephone:" />
+                                        <p:inputMask value="#{userBean.user.telephone}" mask="(99) 9999-9999" />
+
+					<h:outputText value="E-mail" />
+					<p:inputText value="#{userBean.user.email}" />
+
+					<p:commandButton value="Atualiser" icon="ui-icon-check"
+                                                         action="#{userBean.atualiser()}" oncomplete="editWidget.hide()"
+						update="table, msg" />
+
+				</h:panelGrid>
+			</p:dialog>
+
+			<p:confirmDialog id="removeDialog" widgetVar="removeWidget" header="suppression d'utilisateur"
+				message="voulez vous supprimez l'utilisateur #{userBean.user.nom}?"
+				severity="alert" >
+				
+				<p:commandButton value="oui" icon="ui-icon-check" action="#{userBean.remove}"
+					oncomplete="removeWidget.hide()" update="table, msg" />
+			</p:confirmDialog>
+
+		</h:form>
+	</h:body>
+
+</f:view>
+</html>
+
